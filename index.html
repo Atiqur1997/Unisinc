@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unisinc - Technology & Innovation Company</title>
-    <meta name="description" content="Unisinc - Leading technology company specializing in app development, programming education, and innovative solutions. Home of Spiidly delivery app.">
+    <title>Unisinc - Technology & Business Solutions</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
@@ -19,13 +18,12 @@
     <!-- Navigation -->
     <nav class="nav">
         <div class="nav-content">
-            <a href="#" class="nav-logo">
-                <span class="logo-text">Unisinc</span>
-            </a>
+            <a href="#" class="logo-text">Unisinc</a>
             <div class="nav-links">
                 <a href="#about">About</a>
                 <a href="#services">Services</a>
                 <a href="#spiidly">Spiidly</a>
+                <a href="#team">Team</a>
                 <a href="#contact">Contact</a>
             </div>
             <div class="menu-toggle">
@@ -39,6 +37,7 @@
         <a href="#about">About</a>
         <a href="#services">Services</a>
         <a href="#spiidly">Spiidly</a>
+        <a href="#team">Team</a>
         <a href="#contact">Contact</a>
     </div>
 
@@ -53,7 +52,7 @@
             </div>
         </div>
         <div class="hero-image" data-aos="fade-left">
-            <img src="images/hero-bg.jpg" alt="Technology Innovation" width="600" height="400">
+            <img src="images/hero-bg.jpg" alt="Technology Innovation" loading="lazy">
         </div>
     </section>
 
@@ -123,16 +122,16 @@
                     <h3>Quick Delivery at Your Fingertips</h3>
                     <p>Spiidly is our latest innovation in grocery delivery. Experience convenient shopping with fresh products delivered right to your doorstep in Mangaldoi.</p>
                     <div class="spiidly-buttons">
-                        <a href="https://play.google.com/store/apps/details?id=com.spiidly&hl=en" class="btn btn-primary" target="_blank">
+                        <a href="https://play.google.com/store/apps/details?id=com.spiidly" class="btn btn-primary" target="_blank">
                             <i class="fab fa-google-play"></i> Download App
                         </a>
-                        <a href="https://www.instagram.com/spiidly_official/?hl=en" class="btn btn-secondary" target="_blank">
+                        <a href="https://www.instagram.com/spiidly_official/" class="btn btn-secondary" target="_blank">
                             <i class="fab fa-instagram"></i> Follow Us
                         </a>
                     </div>
                 </div>
                 <div class="spiidly-image" data-aos="fade-left">
-                    <img src="images/spiidly-app.png" alt="Spiidly App" width="300" height="600">
+                    <img src="images/spiidly-app.png" alt="Spiidly App" loading="lazy">
                 </div>
             </div>
         </div>
@@ -145,16 +144,16 @@
             <div class="team-grid">
                 <div class="team-card" data-aos="fade-up">
                     <div class="team-image">
-                        <img src="images/akib.jpeg" alt="Akib Ali" width="200" height="200">
+                        <img src="images/akib.jpeg" alt="Akib" loading="lazy">
                         <div class="team-social">
-                            <a href="https://www.instagram.com/spiidly_official/" target="_blank">
-                                <i class="fab fa-instagram"></i>
-                            </a>
+                            <a href="https://www.facebook.com/akib.hussain.7" target="_blank"><i class="fab fa-facebook"></i></a>
+                            <a href="https://www.instagram.com/akib_hussain_25/" target="_blank"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.linkedin.com/in/akib-hussain-0b6b3b1b2/" target="_blank"><i class="fab fa-linkedin"></i></a>
                         </div>
                     </div>
                     <div class="team-info">
-                        <h3>Akib Ali</h3>
-                        <p>Store Manager, Spiidly Mangaldoi</p>
+                        <h3>Akib Hussain</h3>
+                        <p>Founder & CEO</p>
                     </div>
                 </div>
             </div>
@@ -180,10 +179,10 @@
                         <p>Mangaldoi, Assam</p>
                     </div>
                 </div>
-                <form class="contact-form" data-aos="fade-left">
-                    <input type="text" placeholder="Your Name" required>
-                    <input type="email" placeholder="Your Email" required>
-                    <textarea placeholder="Your Message" required></textarea>
+                <form class="contact-form" id="contactForm" data-aos="fade-left">
+                    <input type="text" name="name" placeholder="Your Name" required>
+                    <input type="email" name="email" placeholder="Your Email" required>
+                    <textarea name="message" placeholder="Your Message" required></textarea>
                     <button type="submit" class="btn btn-primary">Send Message</button>
                 </form>
             </div>
@@ -200,24 +199,27 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-logo">
-                    <span class="logo-text">Unisinc</span>
-                    <p>Innovating Technology & Services</p>
+                    <h3>Unisinc</h3>
+                    <p>Innovating Technology & Business Solutions</p>
                 </div>
                 <div class="footer-links">
                     <a href="#about">About</a>
                     <a href="#services">Services</a>
                     <a href="#spiidly">Spiidly</a>
+                    <a href="#team">Team</a>
                     <a href="#contact">Contact</a>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2025 Unisinc. All rights reserved.</p>
+                <p>&copy; 2024 Unisinc. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <!-- Scripts -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/contact.js"></script>
 </body>
 </html>

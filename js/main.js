@@ -34,6 +34,8 @@ menuToggle.addEventListener('click', () => {
     mobileMenu.classList.toggle('active');
     menuToggle.classList.toggle('active');
     body.classList.toggle('menu-open');
+    menuToggle.querySelector('i').classList.toggle('fa-bars');
+    menuToggle.querySelector('i').classList.toggle('fa-times');
 });
 
 // Close mobile menu when clicking outside
@@ -42,6 +44,8 @@ document.addEventListener('click', (e) => {
         mobileMenu.classList.remove('active');
         menuToggle.classList.remove('active');
         body.classList.remove('menu-open');
+        menuToggle.querySelector('i').classList.add('fa-bars');
+        menuToggle.querySelector('i').classList.remove('fa-times');
     }
 });
 
@@ -51,6 +55,8 @@ document.querySelectorAll('.mobile-menu a').forEach(link => {
         mobileMenu.classList.remove('active');
         menuToggle.classList.remove('active');
         body.classList.remove('menu-open');
+        menuToggle.querySelector('i').classList.add('fa-bars');
+        menuToggle.querySelector('i').classList.remove('fa-times');
     });
 });
 
@@ -125,6 +131,11 @@ if (contactForm) {
             if (!input.value.trim()) {
                 isValid = false;
                 input.classList.add('error');
+                showNotification('Please fill in all fields', 'error');
+            } else if (input.type === 'email' && !isValidEmail(input.value)) {
+                isValid = false;
+                input.classList.add('error');
+                showNotification('Please enter a valid email address', 'error');
             } else {
                 input.classList.remove('error');
             }
@@ -132,10 +143,48 @@ if (contactForm) {
 
         if (isValid) {
             // Show success message
-            alert('Thank you for your message! We will get back to you soon.');
+            showNotification('Thank you for your message! We will get back to you soon.', 'success');
             contactForm.reset();
         }
     });
+
+    // Real-time validation
+    contactForm.querySelectorAll('input, textarea').forEach(input => {
+        input.addEventListener('input', () => {
+            if (input.classList.contains('error')) {
+                if (input.type === 'email') {
+                    if (isValidEmail(input.value)) {
+                        input.classList.remove('error');
+                    }
+                } else if (input.value.trim()) {
+                    input.classList.remove('error');
+                }
+            }
+        });
+    });
+}
+
+// Email validation helper
+function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+// Notification helper
+function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.innerHTML = `
+        <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+        <span>${message}</span>
+    `;
+
+    document.body.appendChild(notification);
+    setTimeout(() => notification.classList.add('show'), 100);
+
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
 }
 
 // Image lazy loading
@@ -144,15 +193,18 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if ('loading' in HTMLImageElement.prototype) {
         lazyImages.forEach(img => {
-            img.src = img.dataset.src;
+            if (img.dataset.src) {
+                img.src = img.dataset.src;
+            }
         });
     } else {
-        // Fallback for browsers that don't support lazy loading
         const imageObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const img = entry.target;
-                    img.src = img.dataset.src;
+                    if (img.dataset.src) {
+                        img.src = img.dataset.src;
+                    }
                     observer.unobserve(img);
                 }
             });
@@ -161,3 +213,8 @@ document.addEventListener('DOMContentLoaded', () => {
         lazyImages.forEach(img => imageObserver.observe(img));
     }
 });
+
+// Prevent form resubmission on page refresh
+if (window.history.replaceState) {
+    window.history.replaceState(null, null, window.location.href);
+}
