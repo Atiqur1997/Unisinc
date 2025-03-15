@@ -1,14 +1,18 @@
 // Initialize EmailJS
 (function() {
-    emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your EmailJS public key
+    emailjs.init("WY9ps_6fMZvMEXmak");
 })();
 
 // Contact Form Handler
 const contactForm = document.getElementById('contactForm');
 
 if (contactForm) {
-    contactForm.addEventListener('submit', function(e) {
+    contactForm.addEventListener('submit', async function(e) {
         e.preventDefault();
+
+        if (!validateForm()) {
+            return;
+        }
 
         // Get form elements
         const submitButton = this.querySelector('button[type="submit"]');
@@ -22,53 +26,53 @@ if (contactForm) {
 
         // Prepare email data
         const templateParams = {
+            to_name: "Admin",
             from_name: nameInput.value,
             from_email: emailInput.value,
             message: messageInput.value,
-            to_email: 'unisinc25@gmail.com'
+            reply_to: emailInput.value
         };
 
-        // Send email using EmailJS
-        emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
-            .then(function() {
-                // Success message
+        try {
+            // Send email using EmailJS
+            const response = await emailjs.send(
+                'service_4aqxlzg', 
+                'template_aqwjpzj', 
+                templateParams, 
+                'WY9ps_6fMZvMEXmak'
+            );
+            
+            if (response.status === 200) {
+                console.log('SUCCESS!', response.status, response.text);
                 showNotification('Message sent successfully!', 'success');
                 contactForm.reset();
-            })
-            .catch(function(error) {
-                // Error message
-                showNotification('Failed to send message. Please try again.', 'error');
-                console.error('EmailJS Error:', error);
-            })
-            .finally(function() {
-                // Re-enable submit button
-                submitButton.disabled = false;
-                submitButton.textContent = 'Send Message';
-            });
+            } else {
+                throw new Error('Failed to send message');
+            }
+        } catch (error) {
+            console.error('FAILED...', error);
+            showNotification('Failed to send message. Please try again.', 'error');
+        } finally {
+            // Reset button state
+            submitButton.disabled = false;
+            submitButton.textContent = 'Send Message';
+        }
     });
-}
 
-// Notification System
-function showNotification(message, type) {
-    // Create notification element
-    const notification = document.createElement('div');
-    notification.className = `notification ${type}`;
-    notification.innerHTML = `
-        <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
-        <span>${message}</span>
-    `;
-
-    // Add notification to document
-    document.body.appendChild(notification);
-
-    // Show notification
-    setTimeout(() => notification.classList.add('show'), 100);
-
-    // Remove notification after 3 seconds
-    setTimeout(() => {
-        notification.classList.remove('show');
-        setTimeout(() => notification.remove(), 300);
-    }, 3000);
+    // Real-time validation
+    contactForm.querySelectorAll('input, textarea').forEach(input => {
+        input.addEventListener('input', () => {
+            if (input.classList.contains('error')) {
+                if (input.type === 'email') {
+                    if (isValidEmail(input.value)) {
+                        markValid(input);
+                    }
+                } else if (input.value.trim()) {
+                    markValid(input);
+                }
+            }
+        });
+    });
 }
 
 // Form Input Validation
@@ -119,17 +123,21 @@ function createErrorMessage() {
     return span;
 }
 
-// Real-time validation
-contactForm.querySelectorAll('input, textarea').forEach(input => {
-    input.addEventListener('input', () => {
-        if (input.classList.contains('error')) {
-            if (input.type === 'email') {
-                if (isValidEmail(input.value)) {
-                    markValid(input);
-                }
-            } else if (input.value.trim()) {
-                markValid(input);
-            }
-        }
-    });
-});
+// Notification System
+function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.innerHTML = `
+        <i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i>
+        <span>${message}</span>
+    `;
+
+    document.body.appendChild(notification);
+    
+    setTimeout(() => notification.classList.add('show'), 100);
+
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
