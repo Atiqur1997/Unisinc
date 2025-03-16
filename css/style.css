@@ -37,7 +37,17 @@ body {
     color: var(--text-color);
 }
 
+.logo-text {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
 
+.nav-logo {
+    width: 44px;
+    height: 44px;
+    object-fit: contain;
+}
 
 /* Navigation */
 .nav {
