@@ -359,6 +359,7 @@ body {
 /* Spiidly Section */
 .spiidly {
     padding: 6rem 0;
+    overflow: hidden;
 }
 
 .spiidly-content {
@@ -380,8 +381,16 @@ body {
     gap: 1rem;
 }
 
+.spiidly-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
 .spiidly-image img {
-    max-width: 200px;
+    max-width: 300px;
+    width: 100%;
     height: auto;
     border-radius: 10px;
     box-shadow: var(--shadow-md);
@@ -404,6 +413,8 @@ body {
 .team-grid {
     display: flex;
     justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
 }
 
 .team-card {
@@ -413,6 +424,7 @@ body {
     text-align: center;
     box-shadow: var(--shadow-md);
     max-width: 300px;
+    width: 100%;
     transition: all var(--transition-duration) var(--transition-timing);
 }
 
@@ -556,6 +568,7 @@ body {
     color: var(--text-color);
 }
 
+/* Continue from previous styles */
 .hours-item {
     display: flex;
     justify-content: space-between;
@@ -563,10 +576,6 @@ body {
     padding-bottom: 0.5rem;
     border-bottom: 1px solid #ddd;
     transition: transform var(--transition-duration) var(--transition-timing);
-}
-
-.hours-item:hover {
-    transform: translateX(5px) translateZ(0);
 }
 
 .location-info {
@@ -653,27 +662,6 @@ body {
 .whatsapp-float:hover {
     transform: translateY(-5px) translateZ(0);
     box-shadow: 0 15px 25px rgba(37, 211, 102, 0.3);
-}
-
-/* Animations */
-@keyframes slideDown {
-    from {
-        transform: translateY(-100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateY(0);
-        opacity: 1;
-    }
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
 }
 
 /* Media Queries */
@@ -804,5 +792,26 @@ body {
 
     .footer {
         padding: 1rem 0;
+    }
+}
+
+/* Animations */
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
     }
 }
