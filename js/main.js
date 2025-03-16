@@ -1,52 +1,57 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Hide preloader when page is loaded
+    // Preloader with smooth fade
     window.addEventListener('load', () => {
         const preloader = document.querySelector('.preloader');
-        preloader.classList.add('fade-out');
+        preloader.style.opacity = '0';
         setTimeout(() => {
             preloader.style.display = 'none';
-        }, 500);
+        }, 600);
     });
 
-    // Mobile menu toggle
+    // Mobile menu with smooth transitions
     const menuToggle = document.querySelector('.menu-toggle');
     const mobileMenu = document.querySelector('.mobile-menu');
     
     if (menuToggle && mobileMenu) {
         menuToggle.addEventListener('click', function() {
-            mobileMenu.classList.toggle('active');
-            menuToggle.querySelector('i').classList.toggle('fa-bars');
-            menuToggle.querySelector('i').classList.toggle('fa-times');
-        });
-
-        // Close mobile menu when clicking a link
-        const mobileLinks = mobileMenu.querySelectorAll('a');
-        mobileLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.remove('active');
-                menuToggle.querySelector('i').classList.add('fa-bars');
-                menuToggle.querySelector('i').classList.remove('fa-times');
+            requestAnimationFrame(() => {
+                mobileMenu.classList.toggle('active');
+                menuToggle.querySelector('i').classList.toggle('fa-bars');
+                menuToggle.querySelector('i').classList.toggle('fa-times');
             });
         });
 
-        // Close mobile menu when clicking outside
+        // Smooth mobile menu closing
+        const mobileLinks = mobileMenu.querySelectorAll('a');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                requestAnimationFrame(() => {
+                    mobileMenu.classList.remove('active');
+                    menuToggle.querySelector('i').classList.add('fa-bars');
+                    menuToggle.querySelector('i').classList.remove('fa-times');
+                });
+            });
+        });
+
         document.addEventListener('click', (e) => {
             if (mobileMenu.classList.contains('active') && 
                 !mobileMenu.contains(e.target) && 
                 !menuToggle.contains(e.target)) {
-                mobileMenu.classList.remove('active');
-                menuToggle.querySelector('i').classList.add('fa-bars');
-                menuToggle.querySelector('i').classList.remove('fa-times');
+                requestAnimationFrame(() => {
+                    mobileMenu.classList.remove('active');
+                    menuToggle.querySelector('i').classList.add('fa-bars');
+                    menuToggle.querySelector('i').classList.remove('fa-times');
+                });
             }
         });
     }
 
-    // Stats counter animation
+    // Enhanced stats counter animation
     const stats = document.querySelectorAll('.stat-number');
     if (stats.length > 0) {
         const observerOptions = {
-            threshold: 0.5,
-            rootMargin: '0px'
+            threshold: 0.2,
+            rootMargin: '50px'
         };
 
         const statsObserver = new IntersectionObserver((entries) => {
@@ -54,8 +59,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (entry.isIntersecting) {
                     const stat = entry.target;
                     const target = parseInt(stat.getAttribute('data-target'));
-                    const duration = 2000; // Animation duration in milliseconds
-                    const steps = 50; // Number of steps to reach target
+                    const duration = 2500;
+                    const steps = 60;
                     const increment = target / steps;
                     let current = 0;
                     
@@ -78,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
         stats.forEach(stat => statsObserver.observe(stat));
     }
 
-    // Smooth scroll for anchor links
+    // Enhanced smooth scroll
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
@@ -96,72 +101,65 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Navbar scroll effect
+    // Optimized navbar scroll effect
     const nav = document.querySelector('.nav');
     if (nav) {
         let lastScroll = 0;
-        const scrollThreshold = 10;
+        let ticking = false;
+        const scrollThreshold = 5;
 
         window.addEventListener('scroll', () => {
-            const currentScroll = window.pageYOffset;
-            
-            if (Math.abs(currentScroll - lastScroll) < scrollThreshold) return;
-            
-            if (currentScroll <= 0) {
-                nav.classList.remove('scroll-up', 'scroll-down');
-                return;
+            if (!ticking) {
+                requestAnimationFrame(() => {
+                    const currentScroll = window.pageYOffset;
+                    
+                    if (Math.abs(currentScroll - lastScroll) < scrollThreshold) {
+                        ticking = false;
+                        return;
+                    }
+                    
+                    if (currentScroll <= 0) {
+                        nav.classList.remove('scroll-up', 'scroll-down');
+                    } else if (currentScroll > lastScroll && !nav.classList.contains('scroll-down')) {
+                        nav.classList.remove('scroll-up');
+                        nav.classList.add('scroll-down');
+                    } else if (currentScroll < lastScroll && nav.classList.contains('scroll-down')) {
+                        nav.classList.remove('scroll-down');
+                        nav.classList.add('scroll-up');
+                    }
+                    
+                    lastScroll = currentScroll;
+                    ticking = false;
+                });
+                ticking = true;
             }
-            
-            if (currentScroll > lastScroll && !nav.classList.contains('scroll-down')) {
-                nav.classList.remove('scroll-up');
-                nav.classList.add('scroll-down');
-            } else if (currentScroll < lastScroll && nav.classList.contains('scroll-down')) {
-                nav.classList.remove('scroll-down');
-                nav.classList.add('scroll-up');
-            }
-            
-            lastScroll = currentScroll;
         }, { passive: true });
     }
 
-    // Initialize AOS (Animate On Scroll)
+    // Enhanced AOS initialization
     if (typeof AOS !== 'undefined') {
         AOS.init({
             duration: 800,
-            easing: 'ease-in-out',
+            easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
             once: true,
             mirror: false,
-            offset: 50
+            offset: 50,
+            delay: 100,
+            anchorPlacement: 'top-bottom'
         });
     }
 
-    // Form validation and submission
-    const contactForm = document.querySelector('.contact-form');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            // Add your form submission logic here
-            console.log('Form submitted');
-        });
-    }
-
-    // Back to top button
-    const backToTop = document.querySelector('.back-to-top');
-    if (backToTop) {
-        window.addEventListener('scroll', () => {
-            if (window.pageYOffset > 300) {
-                backToTop.classList.add('active');
-            } else {
-                backToTop.classList.remove('active');
-            }
-        }, { passive: true });
-
-        backToTop.addEventListener('click', (e) => {
-            e.preventDefault();
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-    }
+    // Optimized scroll performance
+    let scrollTimeout;
+    window.addEventListener('scroll', () => {
+        if (!scrollTimeout) {
+            scrollTimeout = setTimeout(() => {
+                scrollTimeout = null;
+                requestAnimationFrame(() => {
+                    const scrolled = window.pageYOffset;
+                    document.body.style.setProperty('--scroll', scrolled);
+                });
+            }, 10);
+        }
+    }, { passive: true });
 });
