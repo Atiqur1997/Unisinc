@@ -336,27 +336,32 @@ body {
 }
 
 .team-grid {
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    justify-items: center;
+    align-items: start;
+    margin-top: 2rem;
 }
 
 .team-card {
-    background: var(--white);
-    padding: 2rem;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    width: 100%;
     max-width: 300px;
-    transition: transform 0.3s;
+    text-align: center;
+    padding: 2.5rem;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
 }
 
 .team-card:hover {
     transform: translateY(-5px);
 }
 
-.team-info h3 {
-    margin-bottom: 0.5rem;
-    color: var(--text-color);
+
+
+.team-info {
+    margin-top: 1rem;
 }
 
 .team-social {
